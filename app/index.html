@@ -3,120 +3,132 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leonida Trophy Guide — GTA VI (PS5)</title>
-<meta name="description" content="Offline guide and tracker for all 55 Grand Theft Auto VI trophies on PlayStation 5: cited guides, a roadmap to the platinum, missable flags, and saved progress.">
-<link rel="stylesheet" href="style.css">
+<title>Leonida Trophy Guide — GTA 6 Trophy Tracker</title>
+<meta name="description" content="Offline guide and tracker for all 55 Grand Theft Auto VI trophies on PlayStation 5: checklist, roadmap to the platinum, missable flags, cited guides, export and import.">
+<link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<header class="hero">
-  <p class="eyebrow">Grand Theft Auto VI &middot; PlayStation 5 &middot; Unofficial fan guide</p>
-  <h1>Leonida Trophy Guide</h1>
-  <p class="tagline">All 55 trophies, each with a guide in our own words and its sources. Tick them off as you earn them — progress stays in your browser, and the platinum roadmap shows the order to take them in.</p>
-  <div class="progress-wrap" role="status" aria-live="polite">
-    <div class="progress-line"><span id="progressText">0 of 55 earned</span><span id="progressPct">0%</span></div>
-    <div class="progress-bar"><div id="progressFill"></div></div>
-    <p class="grade-counts" id="gradeCounts"></p>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">LG</div>
+    <div>
+      <h1>Leonida Trophy Guide</h1>
+      <p class="subtitle">Grand Theft Auto VI &middot; PlayStation 5 &middot; 55 trophies &middot; 1 platinum &middot; 2 gold &middot; 6 silver &middot; 46 bronze</p>
+    </div>
+  </div>
+  <div class="progress-block" aria-label="Platinum progress">
+    <div class="progress-numbers"><span id="earnedCount">0 / 55</span><span id="progressText">0% to the platinum</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressBar" style="width:0%"></div></div>
+    <p class="progress-note" id="gradeCounts"></p>
   </div>
 </header>
 
-<nav class="tabs" aria-label="Sections">
-  <button type="button" id="tabChecklist" class="tab active" aria-selected="true">Checklist</button>
-  <button type="button" id="tabRoadmap" class="tab" aria-selected="false">Roadmap to Platinum</button>
+<nav class="views" aria-label="Views">
+  <button class="view-tab active" data-view="checklist" type="button">Checklist</button>
+  <button class="view-tab" data-view="roadmap" type="button">Roadmap</button>
+  <button class="view-tab" data-view="missables" type="button">Missables</button>
+  <button class="view-tab" data-view="nextup" type="button">Next-Up Planner</button>
 </nav>
 
+<section class="toolbar" aria-label="Filters and tools">
+  <label class="tool-field">Search
+    <input id="search" type="search" placeholder="Search name, description or guide…" autocomplete="off">
+  </label>
+  <label class="tool-field">Grade
+    <select id="gradeFilter">
+      <option value="">All grades</option>
+      <option value="platinum">Platinum</option>
+      <option value="gold">Gold</option>
+      <option value="silver">Silver</option>
+      <option value="bronze">Bronze</option>
+    </select>
+  </label>
+  <label class="tool-field">Kind
+    <select id="kindFilter">
+      <option value="">All kinds</option>
+      <option value="story">Story</option>
+      <option value="mission">Mission</option>
+      <option value="activity">Activity</option>
+      <option value="collectible">Collectible</option>
+      <option value="combat">Combat</option>
+      <option value="exploration">Exploration</option>
+      <option value="money">Money</option>
+      <option value="completion">Completion</option>
+      <option value="misc">Misc</option>
+      <option value="platinum">Platinum</option>
+    </select>
+  </label>
+  <label class="tool-field">Roadmap stage
+    <select id="stageFilter">
+      <option value="">All stages</option>
+      <option value="1">Stage 1 — Story</option>
+      <option value="2">Stage 2 — Strangers &amp; side missions</option>
+      <option value="3">Stage 3 — Activities &amp; collectibles</option>
+      <option value="4">Stage 4 — Platinum cleanup</option>
+    </select>
+  </label>
+  <label class="tool-field">Status
+    <select id="statusFilter">
+      <option value="">Earned &amp; remaining</option>
+      <option value="earned">Earned only</option>
+      <option value="remaining">Remaining only</option>
+    </select>
+  </label>
+  <label class="tool-check"><input id="missableOnly" type="checkbox"> Missable only</label>
+  <label class="tool-check spoiler-check"><input id="spoilerToggle" type="checkbox"> Hide story spoilers</label>
+  <span class="tool-actions">
+    <button id="exportBtn" type="button">Export progress</button>
+    <button id="importBtn" type="button">Import progress</button>
+    <input id="importFile" type="file" accept="application/json,.json" hidden>
+    <button id="resetBtn" type="button" title="Clear all saved progress">Reset</button>
+  </span>
+</section>
+
 <main>
-<section id="viewChecklist" aria-label="Trophy checklist">
-  <div class="controls">
-    <label class="control search">Search <input id="search" type="search" placeholder="Trophy name or description…" autocomplete="off"></label>
-    <label class="control">Grade
-      <select id="gradeFilter">
-        <option value="all">All grades</option>
-        <option value="platinum">Platinum</option>
-        <option value="gold">Gold</option>
-        <option value="silver">Silver</option>
-        <option value="bronze">Bronze</option>
-      </select>
-    </label>
-    <label class="control">Kind
-      <select id="kindFilter">
-        <option value="all">All kinds</option>
-        <option value="story">Story / missions</option>
-        <option value="activity">Activities</option>
-        <option value="collectible">Collectibles</option>
-        <option value="combat">Combat</option>
-        <option value="exploration">Exploration</option>
-        <option value="robbery">Robberies</option>
-        <option value="completion">Completion</option>
-      </select>
-    </label>
-    <label class="control">Show
-      <select id="earnedFilter">
-        <option value="all">All trophies</option>
-        <option value="earned">Earned only</option>
-        <option value="remaining">Not yet earned</option>
-      </select>
-    </label>
-    <label class="check"><input id="missableOnly" type="checkbox"> Missable only</label>
-    <label class="check"><input id="spoilerToggle" type="checkbox" checked> Hide story spoilers</label>
-    <div class="io">
-      <button id="exportBtn" type="button">Export progress</button>
-      <label class="import-btn">Import progress <input id="importFile" type="file" accept="application/json,.json"></label>
-      <button id="resetBtn" type="button" class="quiet">Reset</button>
+  <section id="view-checklist" class="view active" aria-label="Trophy checklist">
+    <div class="split">
+      <div class="list-col">
+        <p class="list-meta" id="listMeta"></p>
+        <ul class="trophy-list" id="trophyList"></ul>
+      </div>
+      <aside class="detail-col" id="detailPanel" aria-label="Trophy detail">
+        <p class="detail-empty">Select a trophy to read its guide, steps, sources and tracker.</p>
+      </aside>
     </div>
-  </div>
-  <p class="hint" id="resultCount"></p>
-  <ol id="trophyList" class="trophy-list"></ol>
-  <p class="empty" id="emptyState" hidden>No trophies match these filters.</p>
-</section>
+  </section>
 
-<section id="viewRoadmap" aria-label="Roadmap to the platinum" hidden>
-  <div class="facts">
-    <div class="fact"><span class="fact-num">4/10</span><span class="fact-label">Difficulty (PowerPyx)</span></div>
-    <div class="fact"><span class="fact-num">~200 h</span><span class="fact-label">To the platinum</span></div>
-    <div class="fact"><span class="fact-num">1</span><span class="fact-label">Playthrough needed</span></div>
-    <div class="fact"><span class="fact-num">0</span><span class="fact-label">Online trophies</span></div>
-    <div class="fact"><span class="fact-num">1</span><span class="fact-label">Potentially missable</span></div>
-    <div class="fact"><span class="fact-num">55</span><span class="fact-label">Trophies: 1P · 2G · 6S · 46B</span></div>
-  </div>
+  <section id="view-roadmap" class="view" aria-label="Roadmap to the platinum">
+    <h2>Roadmap to the platinum</h2>
+    <p class="section-intro">Four stages, built from the official descriptions: play the story, finish the stranger strands, clear the activities and collectibles, then sweep the last counters. Each stage shows its own progress.</p>
+    <div id="roadmapStages" class="roadmap-stages"></div>
+    <h3>How the stages were built</h3>
+    <ol class="roadmap-notes">
+      <li><strong>Stage 1 — Story.</strong> Chapters 1–4 and the named story missions. Every trophy here is a story or mission trophy and cannot be missed.</li>
+      <li><strong>Stage 2 — Strangers &amp; side missions.</strong> The character chains (Andy, Kenton, Billy, Randy, Tyrone), the 8 stranger strands, Bret's hunt and the two partner trophies. Do the partner trophies while both characters are available.</li>
+      <li><strong>Stage 3 — Activities &amp; collectibles.</strong> Shooting ranges, drone races, races, stunts, WAiNK scans, cards, meditation spots, vaults, vehicles and money. This is the long middle of the run — work it region by region.</li>
+      <li><strong>Stage 4 — Platinum cleanup.</strong> 100% Completion and the platinum itself. Open the 100% checklist in the Progress menu and let it steer the final sweep.</li>
+    </ol>
+  </section>
 
-  <div class="warn">
-    <h2>⚠ The one missable trophy</h2>
-    <p><strong>Positive Mental Attitude</strong> — meditate at every spot across Leonida. The first meditation can only be done in <strong>Chapter 1, at Jason&rsquo;s house</strong>: after the main mission <em>Down to Earth</em>, talk to Lucia in the kitchen in the morning, follow her to the balcony and choose <em>Accept</em>. It becomes permanently unavailable after Chapter 1, and it is still unconfirmed whether it is required for the trophy — do it to be safe. Everything else can be earned after the story.</p>
-    <p class="warn-sub">Also: cheats disable trophies and saving, there is no mission replay, and there are 15 manual save slots — keep a save at the start and end of each chapter.</p>
-  </div>
+  <section id="view-missables" class="view" aria-label="Missable trophies">
+    <h2>Missable trophies</h2>
+    <p class="section-intro">Only a few trophies can be missed or made much harder by playing past them. Everything else stays available in free roam after the story. Do these on your first playthrough, in the order shown.</p>
+    <ul class="trophy-list missable-list" id="missablesList"></ul>
+  </section>
 
-  <h2>The road to the platinum</h2>
-  <ol class="steps">
-    <li>
-      <h3>Step 1 — Finish the story <span class="step-time">60–80 hours</span></h3>
-      <p>Play through all 5 chapters. Story trophies pop as you go: 4 chapter trophies, the final-mission gold, 6 mission trophies, and the 5 side-character finales (Andy, Kenton, Billy, Randy, Tyrone). Do the Chapter 1 meditation above, scan new vehicles with the WAiNK app and study new animals through the binoculars as you meet them — that progress already counts toward the 100% checklist even though you cannot see it yet.</p>
-      <p class="step-trophies">Earns: 12 story trophies + 5 side-character finales + the final-mission gold.</p>
-    </li>
-    <li>
-      <h3>Step 2 — The 100% Completion checklist <span class="step-time">~100 hours</span></h3>
-      <p>After the story, the checklist appears under Progress &gt; Stats &gt; 100% Completion. It is lenient — closer to 60% true completion: most side quests are not required, collectibles are only partly required, and you need any 70 of the 80 challenges. Full-requirement items: all robberies, underwater discoveries, shooting ranges, drone races and Bret&rsquo;s quests. On the way you will finish: 250 stunts (300 for the checklist), 42 shooting-range golds, 14 drone-race locations, 20 race wins, 3 card sets, 100 WAiNK scans, 100 vehicles, 5 bank vaults, one illegal operation per gang, and the 100% gold itself.</p>
-      <p class="step-trophies">Earns: A Long Road (gold) and most of the activity, collectible and robbery trophies.</p>
-    </li>
-    <li>
-      <h3>Step 3 — Strangers &amp; Freaks and the leftovers <span class="step-time">~10 hours</span></h3>
-      <p>Strangers &amp; Freaks are not needed for 100%, so finish the 8 counting strands last (Kirk, Kyle, Yago and Pilot Pete are confirmed to count). Then sweep up whatever is left: the 4 trophies with no verified method yet, the combat one-offs, and the money trophies ($250,000 laundered, $100,000 spent, all 8 garages).</p>
-      <p class="step-trophies">Earns: Strangers &amp; Freaks (silver) and the remaining miscellaneous trophies — then the platinum.</p>
-    </li>
-  </ol>
-
-  <h2>Trophies by kind</h2>
-  <ul class="kind-summary" id="kindSummary"></ul>
-
-  <h2>How this guide is sourced</h2>
-  <p class="sources-note">Names, descriptions and grades are shown exactly as PlayStation publishes them (as listed by Exophase and cross-checked against PSNProfiles and TrueAchievements). Each guide is written in this guide&rsquo;s own words from the cited sources — mainly PowerPyx&rsquo;s trophy guide and roadmap — and never copied from them. Four trophies have no verified step-by-step method yet (In The Beginning…, Bad Luck, I Guess, The Truth Is Out There, Ten Pin): their guides say so honestly instead of inventing steps, and point at what the official description itself implies. Sources are listed beside every trophy&rsquo;s guide.</p>
-</section>
+  <section id="view-nextup" class="view" aria-label="Next-up planner">
+    <h2>Next-Up Planner</h2>
+    <p class="section-intro">The most sensible next trophies, picked from what you have already earned: story first, then the quick wins in your current stage, then the longest grinds last.</p>
+    <ol class="nextup-list" id="nextupList"></ol>
+  </section>
 </main>
 
 <footer>
-  <p>Leonida Trophy Guide — an unofficial fan-made guide. Grand Theft Auto and GTA are trademarks of their owners; this guide uses no Rockstar logo, artwork or game imagery. Works fully offline: it loads nothing from the network.</p>
-  <p>Sources: <a href="https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/">PowerPyx — GTA 6 Trophy Guide &amp; Roadmap</a> · <a href="https://www.planetgta6.com/en/gta-6-trophies/">Planet GTA 6 — GTA 6 Trophies</a></p>
+  <p><strong>Sources.</strong> Trophy names, descriptions and grades are the official PlayStation 5 list as published by Exophase and PSNProfiles (listing of 2026-11-18). Each trophy's guide is original writing for this guide and cites its sources beside it. No guide text is copied from another guide.</p>
+  <p><strong>Offline.</strong> This app loads nothing from the network: every file it needs is under app/, progress is saved in your browser's localStorage, and export/import moves a plain JSON file.</p>
+  <p><strong>Honesty note.</strong> Where no cited source has verified a step yet, the guide says so instead of inventing one — see “Bad Luck, I Guess”, “The Truth Is Out There” and “In The Beginning…”.</p>
 </footer>
 
-<script type="module" src="app.js"></script>
+<script type="module" src="./app.js"></script>
 </body>
 </html>

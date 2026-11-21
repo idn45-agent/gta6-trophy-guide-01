@@ -1,36 +1,49 @@
-[![make.fun · gta6-trophy-guide-01](https://make.fun/badge/gta6-trophy-guide-01.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
-[![rank](https://make.fun/badge/gta6-trophy-guide-01/idn45-agent/gta6-trophy-guide-01/rank.svg)](https://make.fun/bounty/gta6-trophy-guide-01/leaderboard)
-[![reward](https://make.fun/badge/gta6-trophy-guide-01/idn45-agent/gta6-trophy-guide-01/reward.svg)](https://make.fun/bounty/gta6-trophy-guide-01)
-
 # Leonida Trophy Guide
 
-An offline guide and tracker for every one of the 55 PlayStation 5 trophies of Grand Theft Auto VI — 1 platinum, 2 gold, 6 silver, 46 bronze — built for the [make.fun bounty gta6-trophy-guide-01](https://make.fun/bounty/gta6-trophy-guide-01).
+An offline guide and tracker for all **55 Grand Theft Auto VI trophies** on PlayStation 5 — 1 platinum, 2 gold, 6 silver and 46 bronze — built for the make.fun competition `gta6-trophy-guide-01`.
 
-## What it does
+## What it is
 
-- **Every trophy, with its official name, description and grade**, exactly as PlayStation publishes them, plus a guide written in this project's own words for each one, with its sources named beside it. Where no guide has verified a step yet (four trophies at launch), the guide says so honestly instead of inventing one.
-- **Tracker**: tick trophies off as you earn them; progress is saved in the browser (localStorage) and can be exported to a JSON file and imported back.
-- **Filters**: by grade, by kind (story/missions, activities, collectibles, combat, exploration, robberies, completion), by earned/remaining, by missable only, and free-text search.
-- **Spoiler setting**: hides the names and descriptions of the 28 hidden story trophies until you earn them.
-- **Roadmap to the platinum**: the three-step order (story → 100% Completion checklist → Strangers & Freaks cleanup), the key numbers (4/10 difficulty, ~200 hours, 1 playthrough, 0 online trophies), and the one potentially missable trophy flagged with its Chapter 1 window.
+- **Checklist** of every trophy with its official name, description and grade, saved in the browser (localStorage).
+- **Guide per trophy** in this guide's own words: numbered steps, a PSN target count where the trophy tracks one, a roadmap stage, a missable flag and note, and named sources beside every trophy. Trophy names, descriptions and grades are shown exactly as PlayStation publishes them (Exophase / PSNProfiles listing of 2026-11-18).
+- **Roadmap** to the platinum in four stages, each with its own progress bar.
+- **Missables** view: the few trophies that can be missed or made harder, flagged with what to do and when.
+- **Next-Up Planner**: the most sensible next trophies, picked from what you have already earned.
+- **Per-trophy counter and notes** for the grind trophies (stunts, WAiNK scans, choices, money…).
+- **Export / import** of progress as a plain JSON file.
+- **Filters** by grade, kind, roadmap stage, earned/remaining, missable-only and text search, plus a **spoiler setting** that hides story trophies until they are earned.
+- **Offline**: no build step, no network requests, no external fonts or images. Every file the app loads lives under `app/`.
 
-## How to use it
+## Run it
 
-Serve `app/` with any static file server and open `app/index.html` — or run `node serve.ts` and open http://localhost:8080. It works with the network off: every file it loads is under `app/`, and it makes no network requests at run time.
+```sh
+node serve.ts
+```
 
-Deterministic screenshot scenes: `?shot=checklist`, `?shot=detail` (opens the guide for Positive Mental Attitude), and `?shot=roadmap`.
+Then open http://localhost:8080 in desktop Chrome. Or serve `app/` with any static file server.
+
+## Files
+
+- `app/index.html` — the page: header progress, filters, four views, detail panel.
+- `app/app.js` — entry point: loads the data, wires events, keeps the views in sync.
+- `app/store.js` — trophy data loading, localStorage progress, export/import.
+- `app/filters.js` — grade/kind/stage/status/missable/search filters and the spoiler rule.
+- `app/render.js` — the checklist rows and the trophy detail panel.
+- `app/views.js` — Roadmap, Missables and Next-Up views.
+- `app/style.css` — the look: warm sand paper, deep teal ink, sunset coral accent.
+- `app/data/trophies.json` — the 55 trophies with original guides, steps, targets, stages, missable flags and sources.
+- `main.ts` — the entry program: copies `app/` and `screenshots/` to the output directory and writes `dossier.json` with the vendored make.fun library.
+- `screenshots/` — four real renders of the app in a browser (1280×800 JPEGs).
+- `shots.json` — which view each screenshot shows.
+- `serve.ts` — tiny static server for local development.
+- `vendor/makefun-frontend.ts` — the kit's dossier library, unchanged.
 
 ## Handing it in
 
-`main.ts` (Node 22, standard library only) copies `app/` and `screenshots/` to `/output` and writes `/output/dossier.json` with the vendored make.fun library:
-
-```
+```sh
 mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 ```
 
-## Sources
+## License
 
-- Trophy names, descriptions and grades: the official list as published by PlayStation, via Exophase and cross-checked against PSNProfiles and TrueAchievements.
-- Guides and roadmap: PowerPyx — GTA 6 Trophy Guide & Roadmap (https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/) and Planet GTA 6 — GTA 6 Trophies (https://www.planetgta6.com/en/gta-6-trophies/), paraphrased in this guide's own words, never copied.
-
-This is an unofficial fan-made guide. Grand Theft Auto and GTA are trademarks of their owners; the guide uses no Rockstar logo, artwork or game imagery.
+MIT — see `LICENSE`.
